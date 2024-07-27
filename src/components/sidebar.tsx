@@ -1,20 +1,59 @@
-function Sidebar() {
-    return ( 
-        <div className="sidebar" id="sidebar">
-          <div className="user-profile">
-            <img src="https://placehold.co/60x60" alt="Sofie Turner" />
-            <span>Sofie Turner</span>
-          </div>
-          <ul className="sidebar-menu" id="sidebar-menu">
-            <li>
-              <a href="#" className="active"><i className="fas fa-user"></i> Mi Cuenta</a>
-            </li>
-            <li>
-              <a href="#"><i className="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-            </li>
-          </ul>
-        </div> 
-        );
+import {
+  FocusContext,
+  useFocusable,
+} from "@noriginmedia/norigin-spatial-navigation";
+import SideBarItem from "./sidebarItem";
+import { useEffect } from "react";
+import { TbHomeFilled } from "react-icons/tb";
+import { MdDevicesOther } from "react-icons/md";
+import { VscSignOut } from "react-icons/vsc";
+
+type SideBarProps = {
+  focusKey: string;
+};
+
+function Sidebar({ focusKey: focusKeyParam }: SideBarProps) {
+  const { ref, focusSelf, focusKey } = useFocusable({
+    focusable: true,
+    saveLastFocusedChild: false,
+    trackChildren: true,
+    autoRestoreFocus: true,
+    isFocusBoundary: false,
+    focusKey: focusKeyParam,
+    onEnterPress: () => {},
+    onEnterRelease: () => {},
+    onArrowPress: () => true,
+    onFocus: () => {},
+    onBlur: () => {},
+    extraProps: { foo: "bar" },
+  });
+
+  useEffect(() => {
+    focusSelf();
+  }, [focusSelf]);
+
+  return (
+    <FocusContext.Provider value={focusKey}>
+      <div className="sidebar" ref={ref}>
+        <div className="logo-details">
+          <i className="bx bxl-c-plus-plus icon"></i>
+          <div className="logo_name">CodingLab</div>
+          <i className="bx bx-menu" id="btn"></i>
+        </div>
+        <ul className="nav-list">
+          <SideBarItem text="Home">
+            <TbHomeFilled />
+          </SideBarItem>
+          <SideBarItem text="Dispositivos">
+            <MdDevicesOther />
+          </SideBarItem>
+          <SideBarItem text="Salir">
+            <VscSignOut />
+          </SideBarItem>
+        </ul>
+      </div>
+    </FocusContext.Provider>
+  );
 }
 
 export default Sidebar;

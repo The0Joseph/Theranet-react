@@ -1,10 +1,22 @@
+import { FocusableComponentLayout, FocusDetails, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { channel } from "../types";
 
-interface channelCardProps extends channel { }
+interface channelCardProps extends channel { 
+    onFocus: (
+        layout: FocusableComponentLayout,
+        props: object,
+        details: FocusDetails
+      ) => void;
+ }
 
-function channelCard({ image, name }: channelCardProps) {
+function channelCard({ image, name,onFocus }: channelCardProps) {
+
+    const { ref, focused } = useFocusable({
+        onFocus
+    })
+
     return (
-        <div className="movie-card">
+        <div className={`movie-card ${focused ? 'active' : ''}`} ref={ref}>
             <img
                 src={image}
                 alt={name}
@@ -15,6 +27,6 @@ function channelCard({ image, name }: channelCardProps) {
         </div>
     );
 }
-
+// https://codepen.io/hourwinner/pen/gOaWdNy
 export default channelCard;
 
