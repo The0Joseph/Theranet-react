@@ -1,43 +1,53 @@
-import { FocusContext, init, setKeyMap, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
-import { ChannelResponse } from "../types";
-import CategorieSlider from './categorieSlider';
-import { useCallback } from "react";
-init({
-      // debug: true,
-      // visualDebug: true,
-    });
-    setKeyMap({
-      left: 37, // 'ArrowLeft'
-      up: 38, // 'ArrowUp'
-      right: 39, // 'ArrowRight'
-      down: 40, // 'ArrowDown'
-      enter: 13 // 'Enter'
-    });
+import {
+  FocusContext,
+  useFocusable,
+} from "@noriginmedia/norigin-spatial-navigation";
+import { categorieChannel, ChannelResponse } from "../types";
+import CategorieSlider from "./categorieSlider";
+import { useCallback, useEffect, useState } from "react";
+import { getChannels } from "../services/api";
+import Loader from "./loader";
 
-function CategoriesContent(categoriesData:ChannelResponse) {
+function CategoriesContent() {
+  const { ref, focusKey } = useFocusable();
+  const [categoriesData, setCategoriesData] = useState<categorieChannel[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    const { ref, focusKey } = useFocusable();
+  const getCategoryeData = async () => {
+    const res: ChannelResponse = await getChannels();
+    setCategoriesData(res.data);
+    setLoading(false);
+  };
 
-    const onRowFocus = useCallback(
-        ({ y }: { y: number }) => {
-          ref.current.scrollTo({
-            top: y,
-            behavior: 'smooth'
-          });
-        },
-        [ref])
+  const onCategorieFocus = useCallback(
+    ({ y }: { y: number }) => {
+      ref.current.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    },
+    [ref]
+  );
 
-    return (
-        <FocusContext.Provider value={focusKey}>
-        <div ref={ref} className="content">
-            {
-                categoriesData.data.map(categorie => (
-                    <CategorieSlider key={categorie.name} {...categorie} onFocus={onRowFocus} />
-                ))
-            }
-        </div>
-        </FocusContext.Provider>
-        );
+  useEffect(() => {
+    getCategoryeData();
+  }, []);
+
+  if (loading) return <Loader />;
+
+  return (
+    <FocusContext.Provider value={focusKey}>
+      <div ref={ref} className="content">
+        {categoriesData.map((categorie) => (
+          <CategorieSlider
+            key={categorie.name}
+            {...categorie}
+            onFocus={onCategorieFocus}
+          />
+        ))}
+      </div>
+    </FocusContext.Provider>
+  );
 }
 
 export default CategoriesContent;

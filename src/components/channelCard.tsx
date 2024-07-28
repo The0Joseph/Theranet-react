@@ -9,11 +9,20 @@ interface channelCardProps extends channel {
       ) => void;
  }
 
-function channelCard({ image, name,onFocus }: channelCardProps) {
+function channelCard({ image, name,onFocus,slug}: channelCardProps) {
+
+    const onEnterPress = () => {
+        let data = new FormData()
+        data.append('slug', slug)
+        alert("enter  => " + slug)
+    }
 
     const { ref, focused } = useFocusable({
-        onFocus
+        onFocus,
+        onEnterPress
     })
+
+    
 
     return (
         <div className={`movie-card ${focused ? 'active' : ''}`} ref={ref}>

@@ -19,7 +19,7 @@ function CategorieSlider({ name, channels,onFocus  }: CategorieSliderProps) {
     
       const scrollingRef = useRef(null);
     
-      const onAssetFocus = useCallback(
+      const onChannelFocus = useCallback(
         ({ x }: { x: number }) => {
           scrollingRef.current.scrollTo({
             left: x,
@@ -39,7 +39,7 @@ function CategorieSlider({ name, channels,onFocus  }: CategorieSliderProps) {
                         <ChannelCard
                             key={channel.slug}
                             {...channel}
-                            onFocus={onAssetFocus}
+                            onFocus={onChannelFocus}
                         />
                     ))}
                 </div>

@@ -12,3 +12,13 @@ export type channel ={
     slug: string
     image : string
 }
+
+export type device = {
+    name : string
+    device :  "mobile" |"smarttv" |"pc"
+    id : string
+}
+
+export type devicesResponse = {
+    data : device[]
+}

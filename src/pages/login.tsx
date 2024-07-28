@@ -1,28 +1,16 @@
 import "../assets/login.css";
 import { FormEvent } from "react";
-import { fetchData } from "../utils/utils";
+import { login } from "../services/api";
+import { authStatusStore } from "../store/authStatusStore";
 
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+function LoginPage() {
+  const setAuthStatus = authStatusStore((state) => state.setStatus);
 
-const MySwal = withReactContent(Swal);
-
-type LoginPageProps = {
-  handleAuthenticated: () => void;
-};
-
-function LoginPage({ handleAuthenticated }: LoginPageProps) {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     const data = new FormData(e.currentTarget);
-    const req = await fetchData("auth/login/", { body: data, method: "POST" });
-    if (req.hasOwnProperty("token")) {
-      localStorage.token = req.token;
-      handleAuthenticated();
-    } else {
-      MySwal.fire("Error!", req.message, "error");
-    }
+    const isLogin = await login(data);
+    if (isLogin) setAuthStatus("authenticated");
   }
 
   return (
