@@ -3,12 +3,12 @@ import {
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
 import { categorieChannel, ChannelResponse } from "../types";
-import CategorieSlider from "./categorieSlider";
 import { useCallback, useEffect, useState } from "react";
 import { getChannels } from "../services/api";
-import Loader from "./loader";
+import Loader from "../components/loader";
+import CategorieSlider from "../components/categorieSlider";
 
-function CategoriesContent() {
+function ChannelsPage() {
   const { ref, focusKey } = useFocusable();
   const [categoriesData, setCategoriesData] = useState<categorieChannel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,4 +50,4 @@ function CategoriesContent() {
   );
 }
 
-export default CategoriesContent;
+export default ChannelsPage;

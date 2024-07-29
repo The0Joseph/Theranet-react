@@ -1,31 +1,28 @@
 import { FocusableComponentLayout, FocusDetails, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { channel } from "../types";
+import { useNavigate } from "react-router-dom";
 
-interface channelCardProps extends channel { 
+interface channelCardProps extends channel {
     onFocus: (
         layout: FocusableComponentLayout,
         props: object,
         details: FocusDetails
-      ) => void;
- }
+    ) => void;
+}
 
-function channelCard({ image, name,onFocus,slug}: channelCardProps) {
+function channelCard({ image, name, onFocus, slug }: channelCardProps) {
 
-    const onEnterPress = () => {
-        let data = new FormData()
-        data.append('slug', slug)
-        alert("enter  => " + slug)
-    }
-
+    const navigate = useNavigate()
+    const onEnterPress = () => navigate(`player/${slug}`)
     const { ref, focused } = useFocusable({
         onFocus,
         onEnterPress
     })
 
-    
+
 
     return (
-        <div className={`movie-card ${focused ? 'active' : ''}`} ref={ref}>
+        <div className={`movie-card ${focused ? 'active' : ''}`} ref={ref} onClick={() => onEnterPress()}>
             <img
                 src={image}
                 alt={name}

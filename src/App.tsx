@@ -1,26 +1,28 @@
-import { useEffect } from "react";
-import { validateToken } from "./services/api";
-import LoginPage from "./pages/login";
-import Loader from "./components/loader";
-import HomePage from "./pages/home";
 import { authStatusStore } from "./store/authStatusStore";
+import {
+  RouterProvider,
+} from "react-router-dom";
+import { useEffect } from "react";
+import { routes } from "./routes/routes";
+
+
 
 function App() {
-  const authStatus = authStatusStore((state) => state.status);
-  const setAuthStatus = authStatusStore((state) => state.setStatus);
 
-  const checkingToken = async () => {
-    const token = await validateToken();
-    setAuthStatus(token ? "authenticated" : "not-authenticated");
-  };
+  const { checkToken } = authStatusStore()
 
   useEffect(() => {
-    checkingToken();
+    checkToken();
   }, []);
 
-  if (authStatus == "checking") return <Loader />;
 
-  return <>{authStatus == "authenticated" ? <HomePage /> : <LoginPage />}</>;
+
+  return (
+    <RouterProvider router={routes}>
+    </RouterProvider>
+  )
+
+
 }
 
 export default App;

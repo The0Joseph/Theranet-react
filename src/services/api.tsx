@@ -1,7 +1,4 @@
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
-const MySwal = withReactContent(Swal);
+import { notification } from "../utils/utils";
 
 interface OptionalParams extends RequestInit {
   headers?: HeadersInit;
@@ -29,11 +26,11 @@ export const fetchData = async (
 
   const json = await req.json();
   if (json.hasOwnProperty("error")) {
-    new MySwal("Error !", json.error, "error");
+    notification.fire({title:"Error !",text: json.error, icon:"error"});
   }
 
   if (json.hasOwnProperty("message")) {
-    new MySwal("mensaje!", json.message, "info");
+    notification.fire({title: "mensaje!", text: json.message, icon: "info"});
   }
 
   return json;

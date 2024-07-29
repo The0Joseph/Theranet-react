@@ -17,11 +17,11 @@ function CategorieSlider({ name, channels,onFocus  }: CategorieSliderProps) {
         onFocus
       });
     
-      const scrollingRef = useRef(null);
+      const scrollingRef = useRef<HTMLDivElement>(null);
     
       const onChannelFocus = useCallback(
         ({ x }: { x: number }) => {
-          scrollingRef.current.scrollTo({
+          scrollingRef.current?.scrollTo({
             left: x,
             behavior: 'smooth'
           });
