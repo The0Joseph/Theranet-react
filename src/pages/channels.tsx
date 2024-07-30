@@ -9,7 +9,10 @@ import Loader from "../components/loader";
 import CategorieSlider from "../components/categorieSlider";
 
 function ChannelsPage() {
-  const { ref, focusKey } = useFocusable();
+  const { ref, focusKey } = useFocusable({
+    forceFocus:true,
+    focusKey :"channelsContent"
+  });
   const [categoriesData, setCategoriesData] = useState<categorieChannel[]>([]);
   const [loading, setLoading] = useState(true);
 

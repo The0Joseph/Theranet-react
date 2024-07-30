@@ -3,30 +3,19 @@ import {
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
 import SideBarItem from "./sidebarItem";
-import { useEffect } from "react";
 import { TbHomeFilled } from "react-icons/tb";
 import { MdDevicesOther } from "react-icons/md";
 import { VscSignOut } from "react-icons/vsc";
 
-type SideBarProps = {
-  focusKey: string;
-};
 
-function Sidebar({ focusKey: focusKeyParam }: SideBarProps) {
+function Sidebar() {
 
-  const { ref, focusSelf, focusKey } = useFocusable({
-    focusable: true,
-    saveLastFocusedChild: false,
+  const { ref, focusKey } = useFocusable({
     trackChildren: true,
-    autoRestoreFocus: true,
-    isFocusBoundary: false,
-    focusKey: focusKeyParam,
+    focusKey: "SIDEBAR",
     onArrowPress: () => true,
+    forceFocus:false
   });
-
-  useEffect(() => {
-    focusSelf();
-  }, [focusSelf]);
 
 
   return (

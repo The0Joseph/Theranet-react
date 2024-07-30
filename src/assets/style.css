@@ -70,6 +70,15 @@ display: flex;
 justify-content: center;
 }
 
+.title h1{
+  z-index: 30;
+  color: #ffffff;
+  bottom: 6px;
+  font-family: "Signika Negative", sans-serif !important;
+  font-size: 50px;
+}
+
+
 
 /* categories content */
 /* Google Font Link */

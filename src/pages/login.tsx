@@ -1,10 +1,24 @@
 import "../assets/login.css";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { login } from "../services/api";
 import { authStatusStore } from "../store/authStatusStore";
+import { FocusContext, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
+import InputForm from "../components/inputForm";
+import ButtonForm from "../components/buttonForm";
+
 
 function LoginPage() {
   const setAuthStatus = authStatusStore((state) => state.setStatus);
+
+  const { ref, focusSelf, focusKey } = useFocusable({
+    saveLastFocusedChild: false,
+    trackChildren: true,
+    autoRestoreFocus: true,
+    isFocusBoundary: false,
+    focusKey: "loginform",
+    forceFocus:false,
+    onArrowPress: () => true,
+  });
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -13,34 +27,43 @@ function LoginPage() {
     if (isLogin) setAuthStatus("authenticated");
   }
 
-  return (
-    <>
-      <div className="background">
-        <div className="shape"></div>
-        <div className="shape"></div>
-      </div>
 
-      <form onSubmit={handleSubmit}>
-        <h3>Login </h3>
-        <label htmlFor="username">Nombre de Usuario</label>
-        <input
-          type="text"
-          placeholder="Nombre de usuario"
-          id="username"
-          name="username"
-          required
-        />
-        <label htmlFor="password">Contraseña</label>
-        <input
-          type="password"
-          placeholder="contraseña"
-          id="password"
-          name="password"
-          required
-        />
-        <button>Iniciar Sesión</button>
-      </form>
-    </>
+
+  useEffect(() => {
+    focusSelf();
+  }, [focusSelf]);
+
+
+
+
+  return (
+    <FocusContext.Provider value={focusKey}>
+      <>
+        <div className="background">
+          <div className="shape"></div>
+          <div className="shape"></div>
+        </div>
+
+        <form onSubmit={handleSubmit} ref={ref}>
+          <h3>Login </h3>
+
+          <InputForm
+            label="Nombre de usuario"
+            inputType="text"
+            name="username"
+          />
+
+          <InputForm
+            label="contraseña"
+            inputType="password"
+            name="password"
+          />
+
+        <ButtonForm text="Iniciar Sesión" />
+          
+        </form>
+      </>
+    </FocusContext.Provider>
   );
 }
 
