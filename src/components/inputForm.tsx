@@ -1,4 +1,4 @@
-import { useFocusable } from "@noriginmedia/norigin-spatial-navigation";
+import { setFocus, useFocusable } from "@noriginmedia/norigin-spatial-navigation";
 import { useRef, useState } from "react";
 
 type InputFormType = {
@@ -14,10 +14,11 @@ function InputForm({ inputType, name, label }: InputFormType) {
 
     const onEnterPress = () => {
         labelRef.current?.click()
+        if (!focused) setFocus(focusKey)
 
     }
 
-    const { ref, focused } = useFocusable({ onEnterPress });
+    const { ref, focused, focusKey } = useFocusable({ onEnterPress });
 
 
     return (

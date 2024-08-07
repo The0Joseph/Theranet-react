@@ -5,6 +5,9 @@ import {
 } from "@noriginmedia/norigin-spatial-navigation";
 import { device } from "../types";
 import { deleteDevice } from "../services/api";
+import { confirmNotification } from "../utils/utils";
+import { getIconDevice } from "../utils/deviceUtils";
+import { useNavigate } from "react-router-dom";
 
 interface deviceCardProps extends device {
   onFocus: (
@@ -14,35 +17,29 @@ interface deviceCardProps extends device {
   ) => void;
 }
 
-function DeviceCard({ device, name, onFocus,id }: deviceCardProps) {
+function DeviceCard({ device, name, onFocus, id }: deviceCardProps) {
 
-    const onEnterPress = async () =>{
-        alert("press")
-        let data = new FormData()
+  const navigate = useNavigate()
+
+  const onEnterPress = async () => {
+    confirmNotification({
+      title: "Desea eliminar el dispositivo?",
+      icon: "question",
+      onConfirm: async () => {
+        let data = new FormData();
         data.append("device", id)
         await deleteDevice(data)
-    }
+        navigate(0)
+      },
+    });
+  };
 
   const { ref, focused } = useFocusable({
     onFocus,
-    onEnterPress
+    onEnterPress,
   });
 
-  let srcIcon = "";
-  switch (device) {
-    case "pc":
-      srcIcon =
-        "https://w7.pngwing.com/pngs/935/326/png-transparent-cable-television-computer-icons-advertisement-film-tv-miscellaneous-television-rectangle-thumbnail.png";
-      break;
-    case "mobile":
-      srcIcon =
-        "https://i.pinimg.com/736x/85/7e/19/857e1977ee87256455b9b597a1529522.jpg";
-      break;
-    case "smarttv":
-      srcIcon =
-        "https://i.pinimg.com/736x/85/7e/19/857e1977ee87256455b9b597a1529522.jpg";
-      break;
-  }
+  const srcIcon = getIconDevice(device)
 
   return (
     <div className={`movie-card ${focused ? "active" : ""}`} ref={ref}>
@@ -51,7 +48,7 @@ function DeviceCard({ device, name, onFocus,id }: deviceCardProps) {
       <img src={srcIcon} alt="" />
 
       <div className="movie-info">
-        <h3 className="movie-title">{name}</h3>
+        <h3 className="movie-title">{name}- {device}</h3>
       </div>
     </div>
   );

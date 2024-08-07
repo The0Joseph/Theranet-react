@@ -1,18 +1,13 @@
 import JWPlayer from "@jwplayer/jwplayer-react";
-import { useNavigate } from "react-router-dom";
+import { channelDetail } from "../types";
+import { usePlayerConfig } from "../hooks/usePlayerConfig";
 
-function PlayerPage() {
+type videoJwplayerType = {
+  channel: channelDetail;
+};
 
-  
-  
+function videoJwplayer({ channel }: videoJwplayerType) {
 
-
-  const navigate = useNavigate();
-
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") navigate("/");
-  });
 
   const config = {
     key: "XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo",
@@ -25,13 +20,16 @@ function PlayerPage() {
     sharing: {},
   };
 
+  const playlist = usePlayerConfig(channel);
+
   return (
     <JWPlayer
       library="https://ssl.p.jwpcdn.com/player/v/8.22.0/jwplayer.js"
-      file="https://coolestguidesontheplanet.com/videodrome/cgp_video/mymovie.mp4"
+        file="https://www.youtube.com/watch?v=lKDGxAHZt0E"
+      playlist={playlist}
       config={config}
     />
   );
 }
 
-export default PlayerPage;
+export default videoJwplayer;

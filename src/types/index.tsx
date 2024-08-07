@@ -22,3 +22,10 @@ export type device = {
 export type devicesResponse = {
     data : device[]
 }
+
+export type channelDetail = {
+    type : string
+    k1? : string
+    k2? : string
+    url : string
+}

@@ -3,7 +3,7 @@ import {
   useFocusable,
 } from "@noriginmedia/norigin-spatial-navigation";
 import { categorieChannel, ChannelResponse } from "../types";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getChannels } from "../services/api";
 import Loader from "../components/loader";
 import CategorieSlider from "../components/categorieSlider";
@@ -48,7 +48,7 @@ function ChannelsPage() {
             onFocus={onCategorieFocus}
           />
         ))}
-      </div>
+        </div>
     </FocusContext.Provider>
   );
 }

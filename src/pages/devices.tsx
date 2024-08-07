@@ -8,7 +8,7 @@ import DeviceCard from "../components/deviceCard";
 function DevicesPage() {
     const [devices, setDevices] = useState<device[]>([]);
     const [loading, setLoading] = useState(true);
-    const { ref, focusKey } = useFocusable();
+    const { ref, focusKey } = useFocusable({focusKey:"DEVICES", forceFocus:true});
   
     const get_Devices = async () => {
       const req: devicesResponse = await getDevices();
