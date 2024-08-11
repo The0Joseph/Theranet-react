@@ -18,8 +18,8 @@ function ButtonForm({text}:ButtonFormType) {
 
 
     return ( 
-        <div className={focused ? "btn-active": ""} ref={ref}>
-            <button ref={btnRef}>{text}</button>
+        <div  ref={ref}>
+            <button className={focused ? "btn-active": ""} ref={btnRef} >{text}</button>
         </div>
      );
 }

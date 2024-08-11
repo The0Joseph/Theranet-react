@@ -14,7 +14,7 @@ function videoJwplayer({ channel }: videoJwplayerType) {
     stretching: "exactfit",
     width: "100%",
     heigth: "100%",
-    aspectratio: "16:9",
+    aspectratio: "420:420",
     autostart: true,
     cast: {},
     sharing: {},
